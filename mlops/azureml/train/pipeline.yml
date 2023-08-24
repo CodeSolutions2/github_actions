@@ -1,0 +1,48 @@
+$schema: https://azuremlschemas.azureedge.net/latest/pipelineJob.schema.json
+type: pipeline
+experiment_name: training  # this will be resued when??
+description: Description of training pipeline   # description can be anything
+
+# <inputs_and_outputs>
+# path: azureml:seeds@latest : seeds is the name of the .csv file
+# table_name: 'seedsmonitoring' : make up a name here
+inputs:
+  input:
+    type: uri_file
+    path: azureml:seeds@latest
+  enable_monitoring: 'false'
+  table_name: 'seedsmonitoring'
+
+outputs: 
+  train_data:
+  val_data:
+  test_data:
+  trained_model:
+  evaluation_output:
+  model_info_output_path:
+# </inputs_and_outputs>
+
+# <jobs>
+settings:
+  default_datastore: azureml:workspaceblobstore
+  default_compute: azureml:cpu-cluster
+  continue_on_step_failure: false
+
+# python training.py  : should be the name of the .py script in .../data-science/src/
+# environment: azureml:experiment_env@latest  : should be the name of the enviornment in .../data-science/environment/
+jobs:
+  train_model:
+    name: train_model
+    display_name: train-model
+    code: ../../../data-science/src
+    command: >-
+      python training.py 
+      --train_data ${{inputs.train_data}} 
+      --model_output ${{outputs.model_output}}
+    environment: azureml:experiment_env@latest
+    inputs:
+      train_data: ${{parent.jobs.prep_data.outputs.train_data}}
+    outputs:
+      model_output: ${{parent.outputs.trained_model}}
+  
+# </jobs>
