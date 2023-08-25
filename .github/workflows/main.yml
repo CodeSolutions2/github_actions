@@ -24,7 +24,7 @@ jobs:
     with:
       resource_group: gdr-name-435654282
       workspace_name: mlworkspacename435654282
-      name: taxi-data
+      name: seeds
       data_file: mlops/azureml/train/data.yml
     secrets:
       creds: ${{secrets.AZURE_CREDENTIALS}}
