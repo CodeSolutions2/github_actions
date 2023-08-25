@@ -32,7 +32,7 @@ Y_COLUMNS =  ['species']
 laquelle_metrics = ['acc']
 # -------------------------------------
 # Definier le location, le nom, et le tag d'enregisterment de model
-SAVE_NAME_FOLDER = 'outputs'
+# SAVE_NAME_FOLDER = 'outputs'
 PKL_MODEL_NOM_DE_ENREGISTERMENT = 'modelfilename'
 NOM_DE_MODEL = 'model'
 NOM_DE_MODEL_TAG = 'Training context'
@@ -43,12 +43,16 @@ RESPONSE_TAG = 'ScriptRunConfig'
 # Differences between Python SDK and GitHub Actions
 
 # Python SDK
-FILE_PATH = sys.argv[1]
+# FILE_PATH = sys.argv[1]
 
 
 # -------------------------------------
 # Get parameters
 parser = argparse.ArgumentParser()
+
+
+parser.add_argument("--train_data", type=str, help="Path to train dataset")
+parser.add_argument("--model_output", type=str, help="Path of output model")
 
 for i in laquelle_args:
     if i == 'training':
@@ -100,7 +104,7 @@ run = Run.get_context()
 # -------------------------------------
 # Get the training dataset
 # df = run.input_datasets['madeup_name'].to_pandas_dataframe()
-df = pd.read_csv(FILE_PATH)
+df = pd.read_csv(Path(args.train_data))
 
 # Separate features and labels
 X, y = df[X_COLUMNS].values, df[Y_COLUMNS].values
@@ -143,8 +147,11 @@ for i in laquelle_metrics:
 # -------------------------------------
 
 
-os.makedirs(SAVE_NAME_FOLDER, exist_ok=True)
-model_file = os.path.join(SAVE_NAME_FOLDER, f'{PKL_MODEL_NOM_DE_ENREGISTERMENT}.pkl')
+# os.makedirs(SAVE_NAME_FOLDER, exist_ok=True)
+# model_file = os.path.join(SAVE_NAME_FOLDER, f'{PKL_MODEL_NOM_DE_ENREGISTERMENT}.pkl')
+# OR
+model_file = os.path.join(args.model_output, f'{PKL_MODEL_NOM_DE_ENREGISTERMENT}.pkl')
+
 joblib.dump(value=model, filename=model_file)
 
 
