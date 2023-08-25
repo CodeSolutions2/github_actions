@@ -41,7 +41,7 @@ jobs:
       --model_output ${{outputs.model_output}}
     environment: azureml:experiment_env@latest
     inputs:
-      train_data: ${{parent.jobs.prep_data.outputs.train_data}}
+      train_data: ${{parent.inputs.input}}
     outputs:
       model_output: ${{parent.outputs.trained_model}}
   
