@@ -3,9 +3,9 @@
 # -------------------------------------
 
 # Import libraries
-import sys
 import os
 import argparse
+from pathlib import Path
 from azureml.core import Run, Dataset
 import pandas as pd
 import numpy as np
@@ -40,10 +40,6 @@ RESPONSE_TAG = 'ScriptRunConfig'
 # -------------------------------------
 
 
-# Differences between Python SDK and GitHub Actions
-
-# Python SDK
-# FILE_PATH = sys.argv[1]
 
 
 # -------------------------------------
@@ -51,6 +47,7 @@ RESPONSE_TAG = 'ScriptRunConfig'
 parser = argparse.ArgumentParser()
 
 
+# Differences between Python SDK and GitHub Actions
 parser.add_argument("--train_data", type=str, help="Path to train dataset")
 parser.add_argument("--model_output", type=str, help="Path of output model")
 
