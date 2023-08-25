@@ -35,7 +35,7 @@ jobs:
       with:
         cluster_name: cpu-cluster
         size: STANDARD_DS11_V2
-        min_instances: 0
+        min_instances: 1
         max_instances: 2
         cluster_tier: low_priority
         resource_group: ${{ needs.get-config.outputs.resource_group }}
