@@ -104,7 +104,7 @@ run = Run.get_context()
 # -------------------------------------
 # Get the training dataset
 # df = run.input_datasets['madeup_name'].to_pandas_dataframe()
-df = pd.read_csv(Path(args.train_data))
+df = pd.read_csv(args.train_data)
 
 # Separate features and labels
 X, y = df[X_COLUMNS].values, df[Y_COLUMNS].values
