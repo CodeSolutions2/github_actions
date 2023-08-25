@@ -1,4 +1,3 @@
-%%writefile $MAIN_PATH/.github/workflows/deploy-model-training-pipeline-classical.yml
 name: deploy-model-training-pipeline
 
 on: 
