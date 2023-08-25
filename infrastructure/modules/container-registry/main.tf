@@ -9,6 +9,5 @@ resource "azurerm_container_registry" "cr" {
   location            = var.location
   sku                 = "Standard"
   admin_enabled       = true
-
   tags = var.tags
 }
