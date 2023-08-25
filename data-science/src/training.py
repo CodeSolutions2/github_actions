@@ -1,6 +1,23 @@
-
 # -------------------------------------
 # ScriptRunConfig
+# -------------------------------------
+
+# Import libraries
+import sys
+import os
+import argparse
+from azureml.core import Run, Dataset
+import pandas as pd
+import numpy as np
+import joblib
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import roc_auc_score
+from sklearn.metrics import roc_curve
+
+
+# -------------------------------------
+# Change variables here
 # -------------------------------------
 # laquelle_args = ['train', 'input', 'prep', 'reg', 'learnrate', 'n_estimator']
 laquelle_args = ['reg', 'input']
@@ -9,7 +26,7 @@ laquelle_args = ['reg', 'input']
 X_COLUMNS = ['area', 'perimeter', 'compactness', 'kernel_length', 
              'kernel_width', 'asymmetry_coefficient', 'groove_length']
 Y_COLUMNS =  ['species']
-NOM_DE_FICHIER = 'data.csv'
+
 # -------------------------------------
 # laquelle_metrics = ['acc', 'auc']
 laquelle_metrics = ['acc']
@@ -23,17 +40,11 @@ RESPONSE_TAG = 'ScriptRunConfig'
 # -------------------------------------
 
 
-# Import libraries
-import os
-import argparse
-from azureml.core import Run, Dataset
-import pandas as pd
-import numpy as np
-import joblib
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import roc_auc_score
-from sklearn.metrics import roc_curve
+# Differences between Python SDK and GitHub Actions
+
+# Python SDK
+FILE_PATH = sys.argv[1]
+
 
 # -------------------------------------
 # Get parameters
@@ -88,7 +99,8 @@ run = Run.get_context()
 
 # -------------------------------------
 # Get the training dataset
-df = run.input_datasets['madeup_name'].to_pandas_dataframe()
+# df = run.input_datasets['madeup_name'].to_pandas_dataframe()
+df = pd.read_csv(FILE_PATH)
 
 # Separate features and labels
 X, y = df[X_COLUMNS].values, df[Y_COLUMNS].values
